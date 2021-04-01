@@ -47,7 +47,7 @@ function Map ()
     return (
         <GoogleMap
             defaultZoom={ 4 }
-            defaultCenter={ { lat: 45.4211, lng: -75.6903 } }
+            defaultCenter={ { lat: 33.4211, lng: 33.6903 } }
             defaultOptions={ { styles: mapStyles } }
         >
 
