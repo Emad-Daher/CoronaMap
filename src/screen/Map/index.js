@@ -1,20 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import
-{
-    GoogleMap,
-
-    InfoWindow, Marker, withGoogleMap,
-    withScriptjs
-} from "react-google-maps";
+{ GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
+import InfoWindowComponent from '../../component/InfoWindowComponent';
+import MarkerComponent from '../../component/MarkerComponent';
 import mapStyles from "./styles";
-import MarkerComponent from '../../component/MarkerComponent'
-import InfoWindowComponent from '../../component/InfoWindowComponent'
 
 function Map ()
 {
     const [ selectedPark, setSelectedPark ] = useState( null );
-    const [ zoom, setZoom ] = useState( 4 );
+    const [ zoom, setZoom ] = useState( 3 );
+    const [ center, setCenter ] = useState( { lat: 33.4211, lng: 33.6903 } )
     console.log( zoom );
 
     const [ mapAPI, setMapAPI ] = useState( [] );
@@ -28,8 +24,8 @@ function Map ()
                 const mapAPI = res.data;
                 setMapAPI( mapAPI );
             } )
-            .catch( error => console.error( `error:${ error }` ) );
-    }, [ zoom ] )
+            .catch( error => console.error( `error123:${ error }` ) );
+    }, [] )
 
     useEffect( () =>
     {
@@ -51,72 +47,17 @@ function Map ()
     return (
         <GoogleMap
             defaultZoom={ zoom }
-            defaultCenter={ { lat: 33.4211, lng: 33.6903 } }
-            defaultOptions={ { styles: mapStyles } }
+            defaultCenter={ center }
+            defaultOptions={ { styles: mapStyles, zoomControl: false, minZoom: 3, maxZoom: 15 } }
             zoom={ zoom }
+            center={ center }
+            maxZoom={ 10 }
+            onZoomChanged={ zoom }
+            onCenterChanged={ center }
         >
-
-            {/* {mapAPI.map( park => (
-                <Marker
-                    key={ park.countryInfo._id }
-                    position={ {
-                        lat: park.countryInfo.lat,
-                        lng: park.countryInfo.long
-                    } }
-                    onClick={ () =>
-                    {
-                        setSelectedPark( park );
-                    } }
-                    icon={ {
-                        url: `/coronavirus-5107715_1280.webp`,
-                        scaledSize: new window.google.maps.Size( 15, 15 )
-                    } }
-                />
-            ) ) } */}
-            <MarkerComponent setSelectedPark={ setSelectedPark } mapAPI={ mapAPI } setZoom={ setZoom } />
-            {/* {mapAPI.map( park => (
-                <MarkerComponent
-                    key={ park.countryInfo._id }
-                    position={ {
-                        lat: park.countryInfo.lat,
-                        lng: park.countryInfo.long
-                    } }
-                    onClick={ () =>
-                    {
-                        setSelectedPark( park );
-                    } }
-                    icon={ {
-                        url: `/coronavirus-5107715_1280.webp`,
-                        scaledSize: new window.google.maps.Size( 15, 15 )
-                    } }
-                />
-            ) ) } */}
+            <MarkerComponent setSelectedPark={ setSelectedPark } mapAPI={ mapAPI } zoom={ zoom } setZoom={ setZoom } setCenter={ setCenter } />
 
             {selectedPark && (
-                // <InfoWindow
-                //     onCloseClick={ () =>
-                //     {
-                //         setSelectedPark( null );
-                //     } }
-                //     position={ {
-                //         lat: selectedPark.countryInfo.lat,
-                //         lng: selectedPark.countryInfo.long
-                //     } }
-                // >
-                //     <div>
-                //         <h2> Name : { selectedPark.country }</h2>
-                //         <p> cases : { selectedPark.cases }</p>
-                //         <p> today Cases : { selectedPark.todayCases }</p>
-                //         <p> deaths : { selectedPark.deaths }</p>
-                //         <p> todayDeaths : { selectedPark.todayDeaths }</p>
-                //         <p> recovered : { selectedPark.recovered }</p>
-                //         <p> todayRecovered : { selectedPark.todayRecovered }</p>
-                //         <p> active : { selectedPark.active }</p>
-                //         <p> critical : { selectedPark.critical }</p>
-                //         <p> casesPerOneMillion : { selectedPark.casesPerOneMillion }</p>
-                //         <p> deathsPerOneMillion : { selectedPark.deathsPerOneMillion }</p>
-                //     </div>
-                // </InfoWindow>
                 <InfoWindowComponent setSelectedPark={ setSelectedPark } selectedPark={ selectedPark } />
             ) }
         </GoogleMap>

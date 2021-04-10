@@ -1,5 +1,4 @@
-// import logo from './logo.svg';
-// import './App.css';
+import './App.css';
 import { MapWrapped } from './screen/Map'
 
 function App ()
@@ -8,9 +7,9 @@ function App ()
     <div style={ { width: "100vw", height: "100vh" } }>
       <MapWrapped
         googleMapURL={ `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places` }
-        loadingElement={ <div style={ { height: `100%`, width: '100%' } } /> }
-        containerElement={ <div style={ { height: `100%`, width: '100%' } } /> }
-        mapElement={ <div style={ { height: `100%`, width: '100%' } } /> }
+        loadingElement={ <div class="div1" /> }
+        containerElement={ <div class="div1" /> }
+        mapElement={ <div class="div1" /> }
       />
     </div>
   );
